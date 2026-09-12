@@ -8,10 +8,11 @@ import { getActiveProductsForCategory } from '@/lib/products'
 export const dynamic = 'force-dynamic'
 
 export default async function CategoryPage({ params }) {
-  const meta = getCategoryMeta(params.category)
+  const { category } = await params
+  const meta = getCategoryMeta(category)
   if (!meta) notFound()
 
-  const products = await getActiveProductsForCategory(params.category)
+  const products = await getActiveProductsForCategory(category)
 
   return (
     <main>

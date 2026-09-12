@@ -4,8 +4,9 @@ import ProductForm from '@/components/admin/ProductForm'
 import { notFound } from 'next/navigation'
 
 export default async function EditProductPage({ params }) {
+  const { id } = await params
   await connectDB()
-  const product = await Product.findById(params.id)
+  const product = await Product.findById(id)
 
   if (!product) notFound()
 
