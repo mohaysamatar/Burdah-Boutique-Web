@@ -1,33 +1,42 @@
+import { notFound } from 'next/navigation'
 import Navbar from '@/components/site/Navbar'
-import Hero from '@/components/site/Hero'
-import CategorySection from '@/components/site/CategorySection'
 import Footer from '@/components/site/Footer'
-import { CATEGORIES } from '@/lib/categories'
-import { getActiveProductsByCategory } from '@/lib/products'
- 
-// Always fetch fresh from the DB — products change via the admin panel,
-// so this page shouldn't be statically cached at build time.
+import ProductDetail from '@/components/site/ProductDetail'
+import { getCategoryMeta } from '@/lib/categories'
+import { getProductBySlug } from '@/lib/products'
+
 export const dynamic = 'force-dynamic'
- 
-export default async function HomePage() {
-  const byCategory = await getActiveProductsByCategory()
- 
+
+export default async function ProductPage({ params }) {
+  const { slug } = await params
+  const product = await getProductBySlug(slug)
+
+  if (!product || !product.isActive) notFound()
+
+  const categoryMeta = getCategoryMeta(product.category)
+
   return (
     <main>
       <Navbar />
-      <Hero />
- 
-      {CATEGORIES.map((category) => (
-        <CategorySection
-          key={category.key}
-          id={category.key}
-          title={category.title}
-          blurb={category.blurb}
-          products={byCategory[category.key] || []}
-          viewAllHref={`/shop/${category.key}`}
-        />
-      ))}
- 
+
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <nav className="text-xs text-navyText/50">
+          <a href="/" className="hover:text-gold transition-colors">Home</a>
+          {categoryMeta && (
+            <>
+              {' / '}
+              <a href={`/shop/${product.category}`} className="hover:text-gold transition-colors">
+                {categoryMeta.title}
+              </a>
+            </>
+          )}
+          {' / '}
+          <span className="text-navyText/70">{product.name}</span>
+        </nav>
+
+        <ProductDetail product={product} />
+      </div>
+
       <Footer />
     </main>
   )
