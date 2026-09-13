@@ -11,8 +11,14 @@ export default function Hero() {
           fabrics that hold their shape, and the shoes, bags, and scent to
           finish it properly.
         </p>
+        <a
+          href="/shop"
+          className="mt-8 inline-block border border-navy px-8 py-3 text-sm text-navy transition-colors hover:bg-navy hover:text-ivory"
+        >
+          Explore the collection
+        </a>
       </div>
- 
+
       <div className="relative flex aspect-[4/5] items-center justify-center border border-navy/15 bg-stone">
         <span className="font-display text-[10rem] italic leading-none text-gold/40">
           B

@@ -134,3 +134,5 @@ export async function GET(request, { params }) {
 - Customer accounts
 - Orders and customers admin pages
 - Deploy to Vercel
+
+Ask Claude for any of these pieces next, one at a time, and they'll be generated as real files the same way this batch was.
